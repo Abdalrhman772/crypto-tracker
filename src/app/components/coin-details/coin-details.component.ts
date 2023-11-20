@@ -69,11 +69,11 @@ export class CoinDetailsComponent implements OnInit {
   getCoinData() {
     this.cryptoService.getCurrencyById(this.coinId).subscribe((res) => {
       if (this.currency === 'EUR') {
-        res.market_data.current_price.eur = res.market_data.current_price.usd;
-        res.market_data.market_cap.eur = res.market_data.market_cap.usd;
+        res.market_data.current_price.usd = res.market_data.current_price.eur;
+        res.market_data.market_cap.usd = res.market_data.market_cap.eur;
       }
-      res.market_data.current_price.eur = res.market_data.current_price.eur;
-      res.market_data.market_cap.eur = res.market_data.market_cap.eur;
+      res.market_data.current_price.usd = res.market_data.current_price.usd;
+      res.market_data.market_cap.usd = res.market_data.market_cap.usd;
       this.coinData = res;
     });
   }
