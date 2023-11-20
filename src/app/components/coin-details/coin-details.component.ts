@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { CurrencyService } from 'src/app/service/currency.service';
 
 @Component({
   selector: 'app-coin-details',
@@ -48,7 +49,8 @@ export class CoinDetailsComponent implements OnInit {
 
   constructor(
     private cryptoService: CryptoService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
@@ -56,19 +58,30 @@ export class CoinDetailsComponent implements OnInit {
       this.coinId = val['id'];
     });
     this.getCoinData();
-    this.getGraphData();
+    this.getGraphData(this.days);
+    this.currencyService.getCurrency().subscribe((val) => {
+      this.currency = val;
+      this.getGraphData(this.days);
+      this.getCoinData();
+    });
   }
 
   getCoinData() {
     this.cryptoService.getCurrencyById(this.coinId).subscribe((res) => {
+      if (this.currency === 'EUR') {
+        res.market_data.current_price.eur = res.market_data.current_price.usd;
+        res.market_data.market_cap.eur = res.market_data.market_cap.usd;
+      }
+      res.market_data.current_price.eur = res.market_data.current_price.eur;
+      res.market_data.market_cap.eur = res.market_data.market_cap.eur;
       this.coinData = res;
-      console.log(this.coinData);
     });
   }
 
-  getGraphData() {
+  getGraphData(days: number) {
+    this.days = days;
     this.cryptoService
-      .getGraphicalCurrencyData(this.coinId, 'USD', 30)
+      .getGraphicalCurrencyData(this.coinId, this.currency, this.days)
       .subscribe((res) => {
         setTimeout(() => {
           this.myLineChart.chart?.update();

@@ -6,6 +6,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router } from '@angular/router';
+import { CurrencyService } from 'src/app/service/currency.service';
 
 @Component({
   selector: 'app-coins-list',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class CoinsListComponent implements OnInit {
   bannerData: any = [];
+  currency: string = 'USD';
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'symbol',
@@ -25,22 +27,31 @@ export class CoinsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private cryptoService: CryptoService, private router: Router) {}
+  constructor(
+    private cryptoService: CryptoService,
+    private router: Router,
+    private currencyService: CurrencyService
+  ) {}
 
   ngOnInit(): void {
     this.getAllData();
     this.getBannerData();
+    this.currencyService.getCurrency().subscribe((val) => {
+      this.currency = val;
+      this.getAllData();
+      this.getBannerData();
+    });
   }
 
   getBannerData() {
-    this.cryptoService.getTrendingCurrency('USD').subscribe((res) => {
+    this.cryptoService.getTrendingCurrency(this.currency).subscribe((res) => {
       console.log(res);
       this.bannerData = res;
     });
   }
 
   getAllData() {
-    this.cryptoService.getCurrency('USD').subscribe((res) => {
+    this.cryptoService.getCurrency(this.currency).subscribe((res) => {
       console.log(res);
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
