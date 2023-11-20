@@ -1,0 +1,15 @@
+.btn-custom {
+  color: #fff;
+  background: transparent;
+  font-weight: 400;
+  font-size: 18px;
+  border: 1px solid #fff;
+  width: 23%;
+}
+
+.btn-custom:focus {
+  background: #009688;
+  font-weight: 700;
+  font-size: 18px;
+  border: 1px solid #009688;
+}

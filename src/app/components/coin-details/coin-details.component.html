@@ -1,25 +1,53 @@
-<div class="container-fluid text-white">
-    <div class="d-flex">
-        <div class="w-25 d-flex mt-4 align-items-center border-end pe-4">
-            <div>
-                <img [src]="coinData.image.large" class="d-flex m-auto text-center" alt="coin">
-                <h3 class="text-center mb-4 mt-2">{{coinData.name}}</h3>
-                <h5 [innerHtml]="coinData.description.en.split('. ')[0]"></h5>
-                <div class="more-detail fs-4 mt-5 pb-4">
-                    <span class="title fw-bold">Rank : </span> <span class="value">{{coinData.market_cap_rank}}</span><br>
-                    <span class="title fw-bold">Current Price : </span> <span class="value">{{coinData.market_data.current_price.usd | currency: currency}}</span><br>
-                    <span class="title fw-bold">Market Cap : </span> <span class="value">{{coinData.market_data.market_cap.usd | currency:currency}}</span>
-                </div>
-            </div>
+<div class="container-fluid ms-md-5 ms-lg-0 text-white">
+  <div class="row">
+    <div
+      class="col-md-3 d-flex flex-column mt-4 align-items-center border-end pe-4 pe-md-5"
+    >
+      <div>
+        <img
+          [src]="coinData.image.large"
+          class="d-flex col-md-9 m-auto text-center"
+          alt="coin"
+        />
+        <h3 class="text-center mb-4 mt-2">{{ coinData.name }}</h3>
+        <h5 [innerHtml]="coinData.description.en.split('. ')[0]"></h5>
+        <div class="more-detail fs-4 mt-5 pb-4">
+          <span class="title fw-bold">Rank : </span>
+          <span class="value">{{ coinData.market_cap_rank }}</span
+          ><br />
+          <span class="title fw-bold">Current Price : </span>
+          <span class="value">{{
+            coinData.market_data.current_price.usd | currency : currency
+          }}</span
+          ><br />
+          <span class="title fw-bold">Market Cap : </span>
+          <span class="value">{{
+            coinData.market_data.market_cap.usd | currency : currency
+          }}</span>
         </div>
-        <div class="w-75 ms-3">
-            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
-            <div class="d-flex justify-content-around">
-                <button (click)="getGraphData(1)" class="btn btn-custom">24 hours</button>
-                <button (click)="getGraphData(30)" class="btn btn-custom">30 days</button>
-                <button (click)="getGraphData(90)" class="btn btn-custom">90 days</button>
-                <button (click)="getGraphData(365)" class="btn btn-custom">1 year</button>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-md-8 ms-3">
+      <canvas
+        baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        [type]="lineChartType"
+      ></canvas>
+      <div class="d-flex justify-content-around">
+        <button (click)="getGraphData(1)" class="btn btn-custom">
+          24 hours
+        </button>
+        <button (click)="getGraphData(30)" class="btn btn-custom">
+          30 days
+        </button>
+        <button (click)="getGraphData(90)" class="btn btn-custom">
+          90 days
+        </button>
+        <button (click)="getGraphData(365)" class="btn btn-custom">
+          1 year
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
