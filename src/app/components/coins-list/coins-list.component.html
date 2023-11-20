@@ -1,0 +1,109 @@
+<div class="banner">
+  <div class="container">
+    <div class="header text-center text-white">
+      <h2 class="font-weight-bold mb-4 display-3">Crypto Checker</h2>
+      <h6 class="text-uppercase text-white font-weight-bold">
+        check all the cryptocurrency latest updates
+      </h6>
+    </div>
+
+    <marquee
+      behavior="scroll"
+      direction="left"
+      onmouseout="start()"
+      onmouseover="stop()"
+      loop="infinite"
+    >
+      <div class="row">
+        <ng-container *ngFor="let banner of bannerData">
+          <div class="col-1">
+            <div class="card bg-transparent text-white m-4 border-0">
+              <img
+                [src]="banner.image"
+                width="100%"
+                class="img-fluid mx-auto"
+                alt="coin"
+              />
+              <div class="card-body">
+                <h5 class="card-title fs-6">
+                  {{ banner.symbol | uppercase }}
+                  <p class="text-danger fs-6">
+                    {{ banner.market_cap_change_percentage_24h }}%
+                  </p>
+                </h5>
+                <p class="card-text">
+                  {{ banner.current_price | currency : "USD" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </marquee>
+  </div>
+</div>
+
+<div class="container">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. Mia"
+      style="color: aliceblue"
+      #input
+    />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Coin</th>
+        <td mat-cell *matCellDef="let row">
+          <img [src]="row.image" width="50" class="my-1" alt="coin" />
+          <span class="mx-2">{{ row.symbol | uppercase }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="current_price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.current_price | currency : "USD" }}%
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price_change_percentage_24h">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>24h Change</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          [ngClass]="{ 'text-danger': row.price_change_percentage_24h < 0 }"
+        >
+          {{ row.price_change_percentage_24h }}%
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="market_cap">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Market Cap</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.market_cap | currency : "USD" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr (click)="goToDetails(row)" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>

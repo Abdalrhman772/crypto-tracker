@@ -1,0 +1,45 @@
+.banner {
+  background-image: url("src/assets/cryptobg.jpg");
+  height: 400px;
+  width: 100%;
+  margin-top: 0;
+}
+
+.card {
+  width: 100px;
+  height: 200px;
+}
+
+.img-fluid {
+  width: 70px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+::ng-deep .mat-mdc-sort-header-content {
+  color: #fff;
+}
+
+::ng-deep .mat-mdc-paginator-outer-container {
+  background-color: rgb(36, 37, 37);
+}
+
+::ng-deep tr.mat-mdc-header-row {
+  background-color: #009688;
+}
+
+::ng-deep tr.mat-mdc-row {
+  height: 70px;
+}
